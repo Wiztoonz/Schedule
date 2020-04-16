@@ -1,0 +1,23 @@
+/ubs/v1/registration - permitAll()
+/ubs/v1/authenticate - permitAll()
+
+/ubs/v1/add - hasAuthority('ADMIN')
+
+/ubs/v1/set/{username} - hasAuthority('ADMIN')
+username - логин пользователя
+/ubs/v1/delete/{username} - hasAuthority('ADMIN')
+username - логин пользователя
+
+/ubs/v1/university/add - hasAuthority('MANAGER') or hasAuthority('ADMIN')
+/ubs/v1/university/update/{universityName} hasAuthority('MANAGER') or hasAuthority('ADMIN')
+universityName - название университета
+
+/ubs/v1/group/add - hasAuthority('MANAGER') or hasAuthority('ADMIN')
+
+/ubs/v1/faculty/add/{universityName} - hasAuthority('MANAGER') or hasAuthority('ADMIN')
+universityName - название университета
+/ubs/v1/university/delete/{facultyName} - hasAuthority('MANAGER') or hasAuthority('ADMIN')
+facultyName - название факультета
+/ubs/v1/faculty/add/{groupName} - hasAuthority('MANAGER') or hasAuthority('ADMIN')
+groupName - имя группы
+
