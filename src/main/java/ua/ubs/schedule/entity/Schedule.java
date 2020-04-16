@@ -27,7 +27,6 @@ public class Schedule {
     @Column(name = "_date", columnDefinition = "DATE")
     @JsonProperty(value = "date")
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @NotBlank(message = "Can not be empty!")
     private LocalDate date;
     @Column(name = "_startLecture", columnDefinition = "TIME")
     @JsonProperty(value = "startLecture")
