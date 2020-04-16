@@ -18,11 +18,9 @@ public class Schedule {
     private Long id;
     @Column(name = "_subjectName")
     @JsonProperty(value = "subjectName")
-    @NotBlank(message = "Can not be empty!")
     private String subjectName;
     @Column(name = "_typeLecture")
     @JsonProperty(value = "typeLecture")
-    @NotBlank(message = "Can not be empty!")
     private String typeLecture;
     @Column(name = "_date", columnDefinition = "DATE")
     @JsonProperty(value = "date")
@@ -31,12 +29,10 @@ public class Schedule {
     @Column(name = "_startLecture", columnDefinition = "TIME")
     @JsonProperty(value = "startLecture")
     @JsonFormat(pattern = "HH:mm")
-    @NotBlank(message = "Can not be empty!")
     private LocalTime startLecture;
     @Column(name = "_finishLecture", columnDefinition = "TIME")
     @JsonProperty(value = "finishLecture")
     @JsonFormat(pattern = "HH:mm")
-    @NotBlank(message = "Can not be empty!")
     private LocalTime finishLecture;
 
     @ManyToOne
