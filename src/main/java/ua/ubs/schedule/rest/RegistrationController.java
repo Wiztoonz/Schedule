@@ -1,6 +1,8 @@
 package ua.ubs.schedule.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.entity.User;
 import ua.ubs.schedule.service.UserService;
@@ -20,9 +22,23 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public User registration(@RequestBody @Valid User user) {
+    public ResponseEntity<Object> registration(@RequestBody @Valid User user) {
         userService.registration(user);
-        return user;
+        return new ResponseEntity<>(new UserRegisterSuccess("true"), HttpStatus.OK);
+    }
+
+    private static class UserRegisterSuccess {
+
+        private String registration;
+
+        public UserRegisterSuccess(String registration) {
+            this.registration = registration;
+        }
+
+        public String getRegistration() {
+            return registration;
+        }
+
     }
 
 }
