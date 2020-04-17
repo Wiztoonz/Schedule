@@ -2,7 +2,6 @@ package ua.ubs.schedule.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.dto.ScheduleDto;
@@ -13,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/ubs/v1/schedule")
 public class ScheduleController {

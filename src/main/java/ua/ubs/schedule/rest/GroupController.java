@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.entity.Group;
 import ua.ubs.schedule.service.GroupService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/ubs/v1/group")
 public class GroupController {

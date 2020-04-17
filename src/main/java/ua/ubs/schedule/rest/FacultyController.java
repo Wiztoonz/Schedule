@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.entity.Faculty;
 import ua.ubs.schedule.service.FacultyService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/ubs/v1/faculty")
 public class FacultyController {

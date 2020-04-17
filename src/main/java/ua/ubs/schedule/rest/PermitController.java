@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.entity.Role;
 import ua.ubs.schedule.service.PermitService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/ubs/v1/permit")
 public class PermitController {

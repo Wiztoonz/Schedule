@@ -8,6 +8,7 @@ import ua.ubs.schedule.entity.Schedule;
 import ua.ubs.schedule.entity.University;
 import ua.ubs.schedule.entity.User;
 import ua.ubs.schedule.exaption.InformationNotFoundException;
+import ua.ubs.schedule.exaption.ScheduleInformationIncorrectException;
 import ua.ubs.schedule.repository.GroupRepository;
 import ua.ubs.schedule.repository.ScheduleRepository;
 import ua.ubs.schedule.repository.UniversityRepository;
@@ -45,6 +46,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         User foundedUserByUsername = userRepository.findByUsername(teacherName);
         Group foundedGroupByGroupName = groupRepository.findGroupByName(groupName);
         University foundedUniversityByUniversityName = universityRepository.findUniversityByUniversityName(universityName);
+
+        if (foundedUserByUsername == null ||
+            foundedGroupByGroupName == null ||
+            foundedUniversityByUniversityName == null) {
+            throw new ScheduleInformationIncorrectException("Data is not found. Need correct information.");
+        }
 
         Schedule currentSchedule = scheduleRepository.save(schedule);
 
