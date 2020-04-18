@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ua.ubs.schedule.exaption.InformationNotFoundException;
 import ua.ubs.schedule.exaption.ScheduleInformationIncorrectException;
+import ua.ubs.schedule.exaption.UserIsRegisteredException;
 import ua.ubs.schedule.exaption.response.*;
 
 import java.util.ArrayList;
@@ -66,6 +67,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ScheduleInformationIncorrectExceptionResponse handleScheduleInformationIncorrectException(ScheduleInformationIncorrectException exception) {
         ScheduleInformationIncorrectExceptionResponse errorResponse = new ScheduleInformationIncorrectExceptionResponse();
+        errorResponse.setMessage(exception.getLocalizedMessage());
+        errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
+        return errorResponse;
+    }
+
+    @ExceptionHandler(value = {UserIsRegisteredException.class})
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public UserIsRegisteredExceptionResponse handleSQLIntegrityConstraintViolationException(UserIsRegisteredException exception) {
+        UserIsRegisteredExceptionResponse errorResponse = new UserIsRegisteredExceptionResponse();
         errorResponse.setMessage(exception.getLocalizedMessage());
         errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
         return errorResponse;

@@ -9,6 +9,8 @@ import ua.ubs.schedule.repository.RoleRepository;
 import ua.ubs.schedule.repository.UserRepository;
 import ua.ubs.schedule.service.UserService;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -24,11 +26,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void registration(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Role role = roleRepository.findByName("USER");
-        user.addRole(role);
-        userRepository.save(user);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            Role role = roleRepository.findByName("USER");
+            user.addRole(role);
+            userRepository.save(user);
     }
 
 
