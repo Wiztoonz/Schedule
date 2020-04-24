@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.entity.User;
 import ua.ubs.schedule.exaption.UserIsRegisteredException;
-import ua.ubs.schedule.service.UserService;
+import ua.ubs.schedule.service.RegistrationService;
 
 import javax.validation.Valid;
 
@@ -16,17 +16,17 @@ import javax.validation.Valid;
 @RequestMapping("/ubs/v1")
 public class RegistrationController {
 
-    private final UserService userService;
+    private final RegistrationService registrationService;
 
     @Autowired
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
+    public RegistrationController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
     }
 
     @PostMapping("/registration")
     public ResponseEntity<Object> registration(@RequestBody @Valid User user) {
         try {
-            userService.registration(user);
+            registrationService.registration(user);
         } catch (DataIntegrityViolationException ex) {
             throw new UserIsRegisteredException("User has registered.");
         }

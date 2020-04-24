@@ -10,13 +10,13 @@ import ua.ubs.schedule.entity.Role;
 import ua.ubs.schedule.entity.User;
 import ua.ubs.schedule.repository.RoleRepository;
 import ua.ubs.schedule.repository.UserRepository;
-import ua.ubs.schedule.service.UserService;
+import ua.ubs.schedule.service.RegistrationService;
 
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserServiceImplTest {
+public class RegistrationServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -28,14 +28,14 @@ public class UserServiceImplTest {
 
     @Test
     public void registrationShouldSaveUser() {
-        UserService userService = new UserServiceImpl(bCryptPasswordEncoder, roleRepository, userRepository);
+        RegistrationService registrationService = new RegistrationServiceImpl(bCryptPasswordEncoder, roleRepository, userRepository);
         User user = mock(User.class);
         Role role = mock(Role.class);
 
         when(user.getPassword()).thenReturn("abc123");
         when(roleRepository.findByName("USER")).thenReturn(role);
 
-        userService.registration(user);
+        registrationService.registration(user);
 
         String password = user.getPassword();
         verify(bCryptPasswordEncoder).encode(password);

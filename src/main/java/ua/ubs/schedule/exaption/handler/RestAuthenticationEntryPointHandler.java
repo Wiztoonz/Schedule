@@ -38,6 +38,10 @@ public class RestAuthenticationEntryPointHandler implements AuthenticationEntryP
             setResponse(errorResponse, tokenEmpty, badRequest, httpServletResponse);
         }
 
+        String authorization = httpServletRequest.getHeader("Authorization");
+        if (authorization == null) {
+            setResponse(errorResponse, "Authorization header has not found.", HttpStatus.FORBIDDEN, httpServletResponse);
+        }
 
         OutputStream out = httpServletResponse.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();

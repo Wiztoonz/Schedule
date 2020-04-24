@@ -1,10 +1,13 @@
 package ua.ubs.schedule.service;
 
-import ua.ubs.schedule.entity.User;
+import ua.ubs.schedule.dto.UserDto;
+
+import java.util.List;
 
 public interface UserService {
 
-    void registration(User user);
+    UserDto getUser(String authorization);
 
+    List<UserDto> findUsers(String name, String surname, String patronymic);
 
 }

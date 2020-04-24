@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ua.ubs.schedule.entity.User;
 
-@JsonPropertyOrder({"name", "surname", "patronymic"})
+@JsonPropertyOrder({"name", "surname", "patronymic, username"})
 public class UserDto {
 
     @JsonProperty(value = "name")
@@ -13,6 +13,8 @@ public class UserDto {
     private String surname;
     @JsonProperty(value = "patronymic")
     private String patronymic;
+    @JsonProperty(value = "username")
+    private String username;
 
     public UserDto() {
     }
@@ -21,6 +23,7 @@ public class UserDto {
         setName(user.getName());
         setSurname(user.getSurname());
         setPatronymic(user.getPatronymic());
+        setUsername(user.getUsername());
         return this;
     }
 
@@ -48,12 +51,21 @@ public class UserDto {
         this.patronymic = patronymic;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", patronymic='" + patronymic + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
