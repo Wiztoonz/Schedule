@@ -30,6 +30,7 @@ public class ScheduleController {
                             @PathVariable String groupName,
                             @PathVariable String universityName,
                             @RequestBody Schedule schedule) {
+        System.err.println(teacherName);
         scheduleService.addSchedule(teacherName, groupName, universityName, schedule);
     }
 

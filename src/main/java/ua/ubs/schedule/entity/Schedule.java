@@ -1,15 +1,16 @@
 package ua.ubs.schedule.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "_schedule")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Schedule {
 
     @Id
@@ -24,7 +25,7 @@ public class Schedule {
     private String typeLecture;
     @Column(name = "_date", columnDefinition = "DATE")
     @JsonProperty(value = "date")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
     @Column(name = "_startLecture", columnDefinition = "TIME")
     @JsonProperty(value = "startLecture")
@@ -37,17 +38,17 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "_group_id", referencedColumnName = "_group_id")
-    @JsonProperty(value = "group")
+    @JsonProperty(value = "group", required = false)
     private Group group;
 
     @ManyToOne
     @JoinColumn(name = "_user_id", referencedColumnName = "_user_id")
-    @JsonProperty(value = "teacher")
+    @JsonProperty(value = "teacher", required = false)
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "_university_id", referencedColumnName = "_university_id")
-    @JsonProperty(value = "university")
+    @JsonProperty(value = "university", required = false)
     private University university;
 
     @Column(name = "_lectureRoom")

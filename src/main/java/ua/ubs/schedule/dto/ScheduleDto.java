@@ -21,7 +21,7 @@ public class ScheduleDto {
     @JsonProperty(value = "typeLecture")
     private String typeLecture;
     @JsonProperty(value = "date")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
     @JsonProperty(value = "startLecture")
     @JsonFormat(pattern = "HH:mm")

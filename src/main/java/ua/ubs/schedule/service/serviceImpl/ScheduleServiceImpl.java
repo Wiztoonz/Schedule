@@ -43,16 +43,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void addSchedule(String teacherName, String groupName, String universityName, Schedule schedule) {
+        System.out.println(0);
         User foundedUserByUsername = userRepository.findByUsername(teacherName);
         Group foundedGroupByGroupName = groupRepository.findGroupByName(groupName);
         University foundedUniversityByUniversityName = universityRepository.findUniversityByUniversityName(universityName);
-
+        System.out.println(1);
         if (foundedUserByUsername == null ||
             foundedGroupByGroupName == null ||
             foundedUniversityByUniversityName == null) {
+            System.out.println(2);
             throw new ScheduleInformationIncorrectException("Data is not found. Need correct information.");
         }
-
+        System.out.println(3);
         Schedule currentSchedule = scheduleRepository.save(schedule);
 
         foundedUserByUsername.addSchedule(currentSchedule);
