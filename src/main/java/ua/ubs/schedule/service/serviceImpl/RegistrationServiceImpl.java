@@ -29,7 +29,15 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     @Transactional
     public void registration(User user) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        String name = user.getName();
+        String surname = user.getSurname();
+        String patronymic = user.getPatronymic();
+        String username = user.getUsername();
+        user.setName(name.toLowerCase());
+        user.setSurname(surname.toLowerCase());
+        user.setPatronymic(patronymic.toLowerCase());
+        user.setUsername(username.toLowerCase());
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             Role role = roleRepository.findByName(SecurityRole.USER.name());
             user.addRole(role);
             userRepository.save(user);
