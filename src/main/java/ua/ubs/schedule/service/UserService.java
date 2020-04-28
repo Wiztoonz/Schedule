@@ -8,6 +8,6 @@ public interface UserService {
 
     UserDto getUser(String authorization);
 
-    List<UserDto> findUsers(String name, String surname, String patronymic);
+    List<UserDto> findUsersByRoleName(String roleName);
 
 }

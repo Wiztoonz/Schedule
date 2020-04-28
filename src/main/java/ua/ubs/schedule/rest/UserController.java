@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.dto.UserDto;
+import ua.ubs.schedule.exaption.InformationNotFoundException;
+import ua.ubs.schedule.security.roles.SecurityRole;
 import ua.ubs.schedule.service.UserService;
 
 import java.util.List;
@@ -26,10 +28,13 @@ public class UserController {
         return userService.getUser(authorization);
     }
 
-    @GetMapping("/find")
+    @GetMapping("/get/teacher")
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
-    public List<UserDto> getUsers(@RequestParam String name, @RequestParam String surname, @RequestParam String patronymic) {
-        return userService.findUsers(name, surname, patronymic);
+    public List<UserDto> getUsers(@RequestParam(defaultValue = "TEACHER") String roleName) {
+        if (!roleName.equalsIgnoreCase(SecurityRole.TEACHER.name())) {
+            throw new InformationNotFoundException("Information not found!");
+        }
+        return userService.findUsersByRoleName(roleName);
     }
 
 }

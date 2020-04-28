@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ua.ubs.schedule.entity.User;
 
 @JsonPropertyOrder({"name", "surname", "patronymic, username"})
-public class UserDto {
+public class UserDto implements Comparable<UserDto> {
 
     @JsonProperty(value = "name")
     private String name;
@@ -57,6 +57,11 @@ public class UserDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public int compareTo(UserDto userDto) {
+        return this.name.compareTo(userDto.name);
     }
 
     @Override
