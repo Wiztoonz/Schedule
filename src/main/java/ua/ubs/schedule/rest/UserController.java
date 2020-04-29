@@ -2,9 +2,13 @@ package ua.ubs.schedule.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import ua.ubs.schedule.auth.ApplicationUser;
+import ua.ubs.schedule.auth.UserPrincipal;
 import ua.ubs.schedule.dto.UserDto;
 import ua.ubs.schedule.exaption.InformationNotFoundException;
+import ua.ubs.schedule.security.access.AppAccess;
 import ua.ubs.schedule.security.roles.SecurityRole;
 import ua.ubs.schedule.service.UserService;
 
@@ -23,9 +27,14 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
-    public UserDto getUser(@RequestHeader(value = "Authorization") String authorization) {
-        return userService.getUser(authorization);
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'ADMIN', 'TEACHER', 'USER')")
+    public UserDto getUser(@RequestHeader(value = "Authorization") String authorization,
+                           @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        ApplicationUser applicationUser = userPrincipal.getApplicationUser();
+        AppAccess appAccess = userService.appAccess(applicationUser);
+        UserDto user = userService.getUser(authorization);
+        user.setAppAccess(appAccess);
+        return user;
     }
 
     @GetMapping("/get/teacher")

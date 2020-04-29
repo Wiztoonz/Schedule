@@ -3,6 +3,7 @@ package ua.ubs.schedule.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ua.ubs.schedule.entity.User;
+import ua.ubs.schedule.security.access.AppAccess;
 
 @JsonPropertyOrder({"name", "surname", "patronymic, username"})
 public class UserDto implements Comparable<UserDto> {
@@ -15,6 +16,8 @@ public class UserDto implements Comparable<UserDto> {
     private String patronymic;
     @JsonProperty(value = "username")
     private String username;
+    @JsonProperty(value = "appAccess")
+    private AppAccess appAccess;
 
     public UserDto() {
     }
@@ -59,6 +62,14 @@ public class UserDto implements Comparable<UserDto> {
         this.username = username;
     }
 
+    public AppAccess getAppAccess() {
+        return appAccess;
+    }
+
+    public void setAppAccess(AppAccess appAccess) {
+        this.appAccess = appAccess;
+    }
+
     @Override
     public int compareTo(UserDto userDto) {
         return this.name.compareTo(userDto.name);
@@ -71,6 +82,7 @@ public class UserDto implements Comparable<UserDto> {
                 ", surname='" + surname + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", username='" + username + '\'' +
+                ", appAccess=" + appAccess +
                 '}';
     }
 }
