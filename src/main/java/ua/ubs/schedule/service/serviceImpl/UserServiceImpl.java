@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import ua.ubs.schedule.auth.ApplicationUser;
 import ua.ubs.schedule.dto.UserDto;
+import ua.ubs.schedule.dto.UserScheduleDto;
 import ua.ubs.schedule.entity.Role;
 import ua.ubs.schedule.entity.User;
 import ua.ubs.schedule.exaption.InformationNotFoundException;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findUsersByRoleName(String roleName) {
+    public List<UserScheduleDto> findUsersByRoleName(String roleName) {
         if (roleName.isEmpty()) {
             throw new InformationNotFoundException("Some information is incorrect!");
         }
@@ -55,10 +56,10 @@ public class UserServiceImpl implements UserService {
             Set<User> userList = role.getUsers();
             users.addAll(userList);
         }
-        List<UserDto> userDtos = new ArrayList<>();
+        List<UserScheduleDto> userDtos = new ArrayList<>();
         for (User user : users) {
-            UserDto userDto = new UserDto();
-            UserDto dto = userDto.userToUserDto(user);
+            UserScheduleDto userScheduleDto = new UserScheduleDto();
+            UserScheduleDto dto = userScheduleDto.userToUserDto(user);
             userDtos.add(dto);
         }
         Collections.sort(userDtos);

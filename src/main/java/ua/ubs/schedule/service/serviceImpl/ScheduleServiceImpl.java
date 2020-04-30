@@ -2,10 +2,7 @@ package ua.ubs.schedule.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.ubs.schedule.dto.GroupDto;
-import ua.ubs.schedule.dto.ScheduleDto;
-import ua.ubs.schedule.dto.UniversityScheduleDto;
-import ua.ubs.schedule.dto.UserDto;
+import ua.ubs.schedule.dto.*;
 import ua.ubs.schedule.entity.Group;
 import ua.ubs.schedule.entity.Schedule;
 import ua.ubs.schedule.entity.University;
@@ -119,7 +116,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleControlPanel getScheduleControlPanel() {
-        List<UserDto> users = userService.findUsersByRoleName(SecurityRole.TEACHER.name());
+        List<UserScheduleDto> users = userService.findUsersByRoleName(SecurityRole.TEACHER.name());
         List<GroupDto> groups = groupService.findAll();
         List<UniversityScheduleDto> universities = universityService.findAll();
         return new ScheduleControlPanel(users, groups, universities);

@@ -1,13 +1,11 @@
 package ua.ubs.schedule.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ua.ubs.schedule.entity.User;
-import ua.ubs.schedule.security.access.AppAccess;
 
-@JsonPropertyOrder({"name", "surname", "patronymic", "username", "appAccess"})
-public class UserDto implements Comparable<UserDto> {
+@JsonPropertyOrder({"name", "surname", "patronymic", "username"})
+public class UserScheduleDto implements Comparable<UserScheduleDto> {
 
     @JsonProperty(value = "name")
     private String name;
@@ -17,13 +15,11 @@ public class UserDto implements Comparable<UserDto> {
     private String patronymic;
     @JsonProperty(value = "username")
     private String username;
-    @JsonProperty(value = "appAccess")
-    private AppAccess appAccess;
 
-    public UserDto() {
+    public UserScheduleDto() {
     }
 
-    public UserDto userToUserDto(User user) {
+    public UserScheduleDto userToUserDto(User user) {
         setName(user.getName());
         setSurname(user.getSurname());
         setPatronymic(user.getPatronymic());
@@ -63,27 +59,19 @@ public class UserDto implements Comparable<UserDto> {
         this.username = username;
     }
 
-    public AppAccess getAppAccess() {
-        return appAccess;
-    }
-
-    public void setAppAccess(AppAccess appAccess) {
-        this.appAccess = appAccess;
-    }
-
     @Override
-    public int compareTo(UserDto userDto) {
-        return this.name.compareTo(userDto.name);
+    public int compareTo(UserScheduleDto userScheduleDto) {
+        return this.name.compareTo(userScheduleDto.name);
     }
 
     @Override
     public String toString() {
-        return "UserDto{" +
+        return "UserScheduleDto{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", username='" + username + '\'' +
-                ", appAccess=" + appAccess +
                 '}';
     }
+
 }
