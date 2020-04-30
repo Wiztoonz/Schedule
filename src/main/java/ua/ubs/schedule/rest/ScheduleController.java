@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.dto.ScheduleDto;
 import ua.ubs.schedule.entity.Schedule;
+import ua.ubs.schedule.response.ScheduleControlPanel;
 import ua.ubs.schedule.service.ScheduleService;
 
 import java.time.LocalDate;
@@ -31,6 +32,12 @@ public class ScheduleController {
                             @PathVariable String universityName,
                             @RequestBody Schedule schedule) {
         scheduleService.addSchedule(teacherName, groupName, universityName, schedule);
+    }
+
+    @GetMapping("/get/control")
+    @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
+    public ScheduleControlPanel getScheduleControlPanel() {
+        return scheduleService.getScheduleControlPanel();
     }
 
     @GetMapping("/get/byGroupName")

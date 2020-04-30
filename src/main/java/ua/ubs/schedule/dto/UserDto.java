@@ -1,11 +1,13 @@
 package ua.ubs.schedule.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ua.ubs.schedule.entity.User;
 import ua.ubs.schedule.security.access.AppAccess;
 
-@JsonPropertyOrder({"name", "surname", "patronymic, username"})
+@JsonPropertyOrder({"name", "surname", "patronymic", "username", "appAccess"})
+@JsonIgnoreProperties({"appAccess"})
 public class UserDto implements Comparable<UserDto> {
 
     @JsonProperty(value = "name")

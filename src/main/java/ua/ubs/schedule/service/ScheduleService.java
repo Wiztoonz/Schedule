@@ -1,7 +1,11 @@
 package ua.ubs.schedule.service;
 
+import ua.ubs.schedule.dto.GroupDto;
 import ua.ubs.schedule.dto.ScheduleDto;
+import ua.ubs.schedule.dto.UniversityScheduleDto;
+import ua.ubs.schedule.dto.UserDto;
 import ua.ubs.schedule.entity.Schedule;
+import ua.ubs.schedule.response.ScheduleControlPanel;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,5 +28,7 @@ public interface ScheduleService {
     List<Schedule> findAllByUniversity(String universityName, LocalDate startDay, LocalDate endDay);
 
     List<Schedule> findAllByTime(LocalTime startTime, LocalTime endTime, String universityName, LocalDate startDay, LocalDate endDay);
+
+    ScheduleControlPanel getScheduleControlPanel();
 
 }

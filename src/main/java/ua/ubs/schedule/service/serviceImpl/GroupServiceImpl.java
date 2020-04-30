@@ -2,6 +2,7 @@ package ua.ubs.schedule.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.ubs.schedule.dto.GroupDto;
 import ua.ubs.schedule.entity.Faculty;
 import ua.ubs.schedule.entity.Group;
 import ua.ubs.schedule.entity.University;
@@ -10,6 +11,7 @@ import ua.ubs.schedule.repository.UniversityRepository;
 import ua.ubs.schedule.service.GroupService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,6 +39,20 @@ public class GroupServiceImpl implements GroupService {
                 currentGroup.addFaculty(faculty);
             }
         }
+    }
+
+    @Override
+    public List<GroupDto> findAll() {
+        List<Group> groups = groupRepository.findAll();
+        GroupDto groupDto = new GroupDto();
+        List<GroupDto> groupDtos = new ArrayList<>();
+
+        for (Group group : groups) {
+            GroupDto dto = groupDto.groupToGroupDto(group);
+            groupDtos.add(dto);
+        }
+
+        return groupDtos;
     }
 
 }

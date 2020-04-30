@@ -2,7 +2,10 @@ package ua.ubs.schedule.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.ubs.schedule.dto.GroupDto;
 import ua.ubs.schedule.dto.ScheduleDto;
+import ua.ubs.schedule.dto.UniversityScheduleDto;
+import ua.ubs.schedule.dto.UserDto;
 import ua.ubs.schedule.entity.Group;
 import ua.ubs.schedule.entity.Schedule;
 import ua.ubs.schedule.entity.University;
@@ -13,7 +16,12 @@ import ua.ubs.schedule.repository.GroupRepository;
 import ua.ubs.schedule.repository.ScheduleRepository;
 import ua.ubs.schedule.repository.UniversityRepository;
 import ua.ubs.schedule.repository.UserRepository;
+import ua.ubs.schedule.response.ScheduleControlPanel;
+import ua.ubs.schedule.security.roles.SecurityRole;
+import ua.ubs.schedule.service.GroupService;
 import ua.ubs.schedule.service.ScheduleService;
+import ua.ubs.schedule.service.UniversityService;
+import ua.ubs.schedule.service.UserService;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -28,15 +36,25 @@ public class ScheduleServiceImpl implements ScheduleService {
     private GroupRepository groupRepository;
     private UniversityRepository universityRepository;
 
+    private UserService userService;
+    private GroupService groupService;
+    private UniversityService universityService;
+
     @Autowired
     public ScheduleServiceImpl(ScheduleRepository scheduleRepository,
                                UserRepository userRepository,
                                GroupRepository groupRepository,
-                               UniversityRepository universityRepository) {
+                               UniversityRepository universityRepository,
+                               UserService userService,
+                               GroupService groupService,
+                               UniversityService universityService) {
         this.scheduleRepository = scheduleRepository;
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.universityRepository = universityRepository;
+        this.userService = userService;
+        this.groupService = groupService;
+        this.universityService = universityService;
     }
 
 
@@ -97,6 +115,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> findAllByTime(LocalTime startTime, LocalTime endTime, String universityName, LocalDate startDay, LocalDate endDay) {
         endTime = (endTime == null) ? startTime : endTime;
         return  scheduleRepository.findAllByStartLectureBetweenAndUniversity_UniversityNameAndDateBetweenOrderByDateAsc(startTime, endTime, universityName, startDay, currentDate(startDay, endDay));
+    }
+
+    @Override
+    public ScheduleControlPanel getScheduleControlPanel() {
+        List<UserDto> users = userService.findUsersByRoleName(SecurityRole.TEACHER.name());
+        List<GroupDto> groups = groupService.findAll();
+        List<UniversityScheduleDto> universities = universityService.findAll();
+        return new ScheduleControlPanel(users, groups, universities);
     }
 
     public List<ScheduleDto> convertScheduleToScheduleDto(List<Schedule> schedules) {
