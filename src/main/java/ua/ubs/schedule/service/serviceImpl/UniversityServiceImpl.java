@@ -38,10 +38,10 @@ public class UniversityServiceImpl implements UniversityService {
     @Override
     public List<UniversityScheduleDto> findAll() {
         List<University> universities = universityRepository.findAll();
-        UniversityScheduleDto universityScheduleDto = new UniversityScheduleDto();
         List<UniversityScheduleDto> universityScheduleDtos = new ArrayList<>();
 
         for (University university : universities) {
+            UniversityScheduleDto universityScheduleDto = new UniversityScheduleDto();
             UniversityScheduleDto dto = universityScheduleDto.universityToUniversityScheduleDto(university);
             universityScheduleDtos.add(dto);
         }

@@ -44,10 +44,10 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupDto> findAll() {
         List<Group> groups = groupRepository.findAll();
-        GroupDto groupDto = new GroupDto();
         List<GroupDto> groupDtos = new ArrayList<>();
 
         for (Group group : groups) {
+            GroupDto groupDto = new GroupDto();
             GroupDto dto = groupDto.groupToGroupDto(group);
             groupDtos.add(dto);
         }
