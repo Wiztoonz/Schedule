@@ -2,6 +2,7 @@ package ua.ubs.schedule.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.ubs.schedule.dto.UniversityDto;
 import ua.ubs.schedule.dto.UniversityScheduleDto;
 import ua.ubs.schedule.entity.University;
 import ua.ubs.schedule.repository.UniversityRepository;
@@ -47,6 +48,18 @@ public class UniversityServiceImpl implements UniversityService {
         }
 
         return universityScheduleDtos;
+    }
+
+    @Override
+    public List<UniversityDto> findAllUniversities() {
+        List<University> universities = universityRepository.findAll();
+        List<UniversityDto> universityDtos = new ArrayList<>();
+        for (University university : universities) {
+            UniversityDto universityDto = new UniversityDto();
+            universityDto.setUniversityName(university.getUniversityName());
+            universityDtos.add(universityDto);
+        }
+        return universityDtos;
     }
 
 }

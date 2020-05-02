@@ -5,7 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import ua.ubs.schedule.auth.ApplicationUser;
+import ua.ubs.schedule.dto.RoleDto;
 import ua.ubs.schedule.dto.UserDto;
+import ua.ubs.schedule.dto.UserRoleDto;
 import ua.ubs.schedule.dto.UserScheduleDto;
 import ua.ubs.schedule.entity.Role;
 import ua.ubs.schedule.entity.User;
@@ -104,6 +106,35 @@ public class UserServiceImpl implements UserService {
         }
 
         return appAccess;
+    }
+
+    @Override
+    public List<UserRoleDto> findAll() {
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            throw new InformationNotFoundException("Information not found!");
+        }
+        List<UserRoleDto> userRoleDtos = new ArrayList<>();
+        for (User user : users) {
+            Set<RoleDto> roleDtos = new HashSet<>();
+            UserRoleDto userRoleDto = new UserRoleDto();
+
+            Set<Role> roles = user.getRoles();
+
+            for (Role role : roles) {
+                RoleDto roleDto = new RoleDto();
+                roleDtos.add(roleDto.roleToRoleDto(role));
+            }
+
+            userRoleDto.setRoles(roleDtos);
+            userRoleDto.setName(user.getName());
+            userRoleDto.setSurname(user.getSurname());
+            userRoleDto.setUsername(user.getUsername());
+            userRoleDto.setPatronymic(user.getPatronymic());
+
+            userRoleDtos.add(userRoleDto);
+        }
+        return userRoleDtos;
     }
 
 }

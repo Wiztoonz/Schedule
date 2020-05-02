@@ -3,8 +3,11 @@ package ua.ubs.schedule.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.ubs.schedule.dto.UniversityDto;
 import ua.ubs.schedule.entity.University;
 import ua.ubs.schedule.service.UniversityService;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -28,6 +31,12 @@ public class UniversityController {
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public void updateUniversity(@PathVariable String universityName, @RequestBody University university) {
         universityService.updateUniversityByName(universityName, university);
+    }
+
+    @GetMapping("/find/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<UniversityDto> findUniversities() {
+        return universityService.findAllUniversities();
     }
 
 }

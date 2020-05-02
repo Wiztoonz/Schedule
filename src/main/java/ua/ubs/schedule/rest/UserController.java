@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ua.ubs.schedule.auth.ApplicationUser;
 import ua.ubs.schedule.auth.UserPrincipal;
 import ua.ubs.schedule.dto.UserDto;
+import ua.ubs.schedule.dto.UserRoleDto;
 import ua.ubs.schedule.dto.UserScheduleDto;
-import ua.ubs.schedule.exaption.InformationNotFoundException;
 import ua.ubs.schedule.security.access.AppAccess;
-import ua.ubs.schedule.security.roles.SecurityRole;
 import ua.ubs.schedule.service.UserService;
 
 import java.util.List;
@@ -38,13 +37,16 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/get/teacher")
+    @GetMapping("/find")
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
-    public List<UserScheduleDto> getUsers(@RequestParam(defaultValue = "TEACHER") String roleName) {
-        if (!roleName.equalsIgnoreCase(SecurityRole.TEACHER.name())) {
-            throw new InformationNotFoundException("Information not found!");
-        }
+    public List<UserScheduleDto> getUsers(@RequestParam String roleName) {
         return userService.findUsersByRoleName(roleName);
+    }
+
+    @GetMapping("/find/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<UserRoleDto> getUsersWithRole() {
+        return userService.findAll();
     }
 
 }

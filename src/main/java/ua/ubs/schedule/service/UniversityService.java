@@ -1,5 +1,6 @@
 package ua.ubs.schedule.service;
 
+import ua.ubs.schedule.dto.UniversityDto;
 import ua.ubs.schedule.dto.UniversityScheduleDto;
 import ua.ubs.schedule.entity.University;
 
@@ -13,4 +14,5 @@ public interface UniversityService {
 
     List<UniversityScheduleDto> findAll();
 
+    List<UniversityDto> findAllUniversities();
 }
