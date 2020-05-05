@@ -13,6 +13,4 @@ public interface FacultyService {
 
     List<FacultyUniversityDto> findAllFaculties();
 
-    List<FacultyUniversityDto> findAll();
-
 }

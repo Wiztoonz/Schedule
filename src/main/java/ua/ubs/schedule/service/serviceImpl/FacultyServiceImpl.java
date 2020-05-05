@@ -59,37 +59,6 @@ public class FacultyServiceImpl implements FacultyService {
 
         for (University university : universities) {
             FacultyUniversityDto facultyUniversityDto = new FacultyUniversityDto();
-            FacultyDto facultyDto = new FacultyDto();
-            UniversityDto universityDto = new UniversityDto();
-
-            List<FacultyDto> facultyDtos = new ArrayList<>();
-
-            for (Faculty faculty : university.getFaculties()) {
-                facultyDto.setFacultyName(faculty.getName());
-                facultyDtos.add(facultyDto);
-            }
-
-            universityDto.setUniversityName(university.getUniversityName());
-
-            facultyUniversityDto.setFaculties(facultyDtos);
-            facultyUniversityDto.setUniversity(universityDto);
-
-            facultyUniversityDtos.add(facultyUniversityDto);
-        }
-
-        return facultyUniversityDtos;
-    }
-
-    @Override
-    public List<FacultyUniversityDto> findAll() {
-        List<University> universities = universityRepository.findAll();
-        if (universities.isEmpty()) {
-            throw new InformationNotFoundException("Information not found!");
-        }
-        List<FacultyUniversityDto> facultyUniversityDtos = new ArrayList<>();
-
-        for (University university : universities) {
-            FacultyUniversityDto facultyUniversityDto = new FacultyUniversityDto();
             UniversityDto universityDto = new UniversityDto();
 
             List<FacultyDto> facultyDtos = new ArrayList<>();
