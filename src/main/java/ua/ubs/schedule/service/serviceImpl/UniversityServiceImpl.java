@@ -24,7 +24,7 @@ public class UniversityServiceImpl implements UniversityService {
 
     @Override
     public void addUniversity(University university) {
-        universityRepository.save(university);
+            universityRepository.save(university);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ua.ubs.schedule.exaption.handler;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import ua.ubs.schedule.exaption.ScheduleInformationIncorrectException;
 import ua.ubs.schedule.exaption.UserIsRegisteredException;
 import ua.ubs.schedule.exaption.response.*;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -77,6 +79,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public UserIsRegisteredExceptionResponse handleSQLIntegrityConstraintViolationException(UserIsRegisteredException exception) {
         UserIsRegisteredExceptionResponse errorResponse = new UserIsRegisteredExceptionResponse();
         errorResponse.setMessage(exception.getLocalizedMessage());
+        errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
+        return errorResponse;
+    }
+
+    @ExceptionHandler(value = {NonUniqueResultException.class})
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public NonUniqueResultExceptionResponse handleNonUniqueResultException() {
+        NonUniqueResultExceptionResponse errorResponse = new NonUniqueResultExceptionResponse();
+        errorResponse.setMessage("This value already exists.");
+        errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
+        return errorResponse;
+    }
+
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public NonUniqueResultExceptionResponse handleNonUniqueResultExceptionSQL() {
+        NonUniqueResultExceptionResponse errorResponse = new NonUniqueResultExceptionResponse();
+        errorResponse.setMessage("This value already exists.");
         errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
         return errorResponse;
     }

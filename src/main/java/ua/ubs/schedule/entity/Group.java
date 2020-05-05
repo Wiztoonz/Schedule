@@ -18,7 +18,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_group_id")
     private Long id;
-    @Column(name = "_group_name")
+    @Column(name = "_group_name", unique = true)
     @JsonProperty(value = "name")
     @NotBlank(message = "Can not be empty!")
     private String name;

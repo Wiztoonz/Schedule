@@ -36,7 +36,7 @@ public class FacultyController {
     @GetMapping("/find/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<FacultyUniversityDto> findFaculties() {
-        return facultyService.findAllFaculties();
+        return facultyService.findAll();
     }
 
 }

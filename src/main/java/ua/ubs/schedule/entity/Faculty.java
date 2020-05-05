@@ -16,7 +16,7 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_faculty_id")
     private Long id;
-    @Column(name = "_faculty_name")
+    @Column(name = "_faculty_name", unique = true)
     @JsonProperty(value = "name")
     @NotBlank(message = "Can not be empty!")
     private String name;
@@ -65,4 +65,13 @@ public class Faculty {
         this.groups = groups;
     }
 
+    @Override
+    public String toString() {
+        return "Faculty{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", university=" + university +
+                ", groups=" + groups +
+                '}';
+    }
 }
