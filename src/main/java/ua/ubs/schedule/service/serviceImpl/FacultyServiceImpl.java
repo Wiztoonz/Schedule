@@ -1,5 +1,6 @@
 package ua.ubs.schedule.service.serviceImpl;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.ubs.schedule.dto.FacultyDto;
@@ -13,6 +14,7 @@ import ua.ubs.schedule.repository.UniversityRepository;
 import ua.ubs.schedule.service.FacultyService;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +34,21 @@ public class FacultyServiceImpl implements FacultyService {
     @Transactional
     public void setFaculty(String universityName, Faculty faculty) {
         University university = universityRepository.findUniversityByUniversityName(universityName);
-        Faculty foundFaculty = facultyRepository.findByName(faculty.getName());
-        boolean contains = university.getFaculties().contains(foundFaculty);
+        if (university == null) {
+            throw new InformationNotFoundException("University is not found.");
+        }
+        boolean contains = false;
+        for (Faculty universityFaculty : university.getFaculties()) {
+            if (universityFaculty.getName().equals(faculty.getName())) {
+                contains = true;
+                break;
+            }
+        }
         if (!contains) {
             university.addFaculty(faculty);
             facultyRepository.save(faculty);
+        } else {
+            throw new ConstraintViolationException("This faculty already exists", new SQLException(), "name");
         }
     }
 

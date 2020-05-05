@@ -1,6 +1,7 @@
 package ua.ubs.schedule.exaption.handler;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,6 @@ import ua.ubs.schedule.exaption.ScheduleInformationIncorrectException;
 import ua.ubs.schedule.exaption.UserIsRegisteredException;
 import ua.ubs.schedule.exaption.response.*;
 
-import javax.persistence.NonUniqueResultException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,20 +83,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return errorResponse;
     }
 
-    @ExceptionHandler(value = {NonUniqueResultException.class})
+    @ExceptionHandler(value = {ConstraintViolationException.class})
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public NonUniqueResultExceptionResponse handleNonUniqueResultException() {
+    public NonUniqueResultExceptionResponse handleNonUniqueResultExceptionSQL(ConstraintViolationException exception) {
         NonUniqueResultExceptionResponse errorResponse = new NonUniqueResultExceptionResponse();
-        errorResponse.setMessage("This value already exists.");
+        errorResponse.setMessage(exception.getLocalizedMessage());
         errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
         return errorResponse;
     }
 
-    @ExceptionHandler(value = {ConstraintViolationException.class})
+    @ExceptionHandler(value = {DataIntegrityViolationException.class})
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public NonUniqueResultExceptionResponse handleNonUniqueResultExceptionSQL() {
-        NonUniqueResultExceptionResponse errorResponse = new NonUniqueResultExceptionResponse();
-        errorResponse.setMessage("This value already exists.");
+    public DataIntegrityViolationExceptionResponse handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        DataIntegrityViolationExceptionResponse errorResponse = new DataIntegrityViolationExceptionResponse();
+        errorResponse.setMessage(exception.getMessage());
         errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
         return errorResponse;
     }

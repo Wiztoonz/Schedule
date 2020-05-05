@@ -1,6 +1,7 @@
 package ua.ubs.schedule.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ua.ubs.schedule.dto.UniversityDto;
 import ua.ubs.schedule.dto.UniversityScheduleDto;
@@ -24,7 +25,11 @@ public class UniversityServiceImpl implements UniversityService {
 
     @Override
     public void addUniversity(University university) {
+        try {
             universityRepository.save(university);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DataIntegrityViolationException("This university already exists");
+        }
     }
 
     @Override
