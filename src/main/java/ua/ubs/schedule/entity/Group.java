@@ -81,4 +81,11 @@ public class Group {
         this.faculties = faculties;
     }
 
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
