@@ -4,7 +4,6 @@ import ua.ubs.schedule.auth.ApplicationUser;
 import ua.ubs.schedule.dto.UserDto;
 import ua.ubs.schedule.dto.UserRoleDto;
 import ua.ubs.schedule.dto.UserScheduleDto;
-import ua.ubs.schedule.entity.User;
 import ua.ubs.schedule.security.access.AppAccess;
 
 import java.util.List;

@@ -40,88 +40,34 @@ public class ScheduleController {
         return scheduleService.getScheduleControlPanel();
     }
 
-    @GetMapping("/get/byGroupName")
-    public List<ScheduleDto> getAllLectureByGroupNameAndUniversityName(@RequestParam String groupName,
-                                                                       @RequestParam String universityName,
-                                                 @RequestParam @DateTimeFormat(
-                                                         pattern = "dd.MM.yyyy",
-                                                         iso = DateTimeFormat.ISO.DATE) LocalDate startDay,
-                                                 @RequestParam(required = false) @DateTimeFormat(
-                                                         pattern = "dd.MM.yyyy",
-                                                         iso = DateTimeFormat.ISO.DATE) LocalDate endDay) {
-        List<Schedule> schedules = scheduleService.findAllByGroup(groupName, universityName, startDay, endDay);
-        return scheduleService.convertScheduleToScheduleDto(schedules);
-    }
-
-    @GetMapping("/get/byLectureRoom")
-    public List<ScheduleDto> getAllLectureByLectureRoomAndUniversityName(@RequestParam String lectureRoom,
-                                                                         @RequestParam String universityName,
-                                                      @RequestParam @DateTimeFormat(
-                                                              pattern = "dd.MM.yyyy",
-                                                              iso = DateTimeFormat.ISO.DATE) LocalDate startDay,
-                                                      @RequestParam(required = false) @DateTimeFormat(
-                                                              pattern = "dd.MM.yyyy",
-                                                              iso = DateTimeFormat.ISO.DATE) LocalDate endDay) {
-        List<Schedule> schedules = scheduleService.findAllByLectureRoom(lectureRoom, universityName, startDay, endDay);
-        return scheduleService.convertScheduleToScheduleDto(schedules);
-    }
-
-    @GetMapping("/get/byTeacher")
-    public List<ScheduleDto> getAllLectureByTeacherAndUniversityName(@RequestParam String teacherName,
-                                                                     @RequestParam String teacherSurname,
-                                                                     @RequestParam String teacherPatronymic,
-                                                                     @RequestParam String universityName,
-                                                    @RequestParam @DateTimeFormat(
-                                                            pattern = "dd.MM.yyyy",
-                                                            iso = DateTimeFormat.ISO.DATE) LocalDate startDay,
-                                                    @RequestParam(required = false) @DateTimeFormat(
-                                                            pattern = "dd.MM.yyyy",
-                                                            iso = DateTimeFormat.ISO.DATE) LocalDate endDay) {
-        List<Schedule> schedules = scheduleService.findAllByTeacher(
-                teacherName, teacherSurname, teacherPatronymic, universityName, startDay, endDay);
-        return scheduleService.convertScheduleToScheduleDto(schedules);
-    }
-
-    @GetMapping("/get/byTypeLecture")
-    public List<ScheduleDto> getAllLectureByTypeLectureAndUniversityName(@RequestParam String typeLecture,
-                                                                         @RequestParam String universityName,
-                                                        @RequestParam @DateTimeFormat(
-                                                                pattern = "dd.MM.yyyy",
-                                                                iso = DateTimeFormat.ISO.DATE) LocalDate startDay,
-                                                        @RequestParam(required = false) @DateTimeFormat(
-                                                                pattern = "dd.MM.yyyy",
-                                                                iso = DateTimeFormat.ISO.DATE) LocalDate endDay) {
-        List<Schedule> schedules = scheduleService.findAllByTypeLecture(typeLecture, universityName, startDay, endDay);
-        return scheduleService.convertScheduleToScheduleDto(schedules);
-    }
-
-    @GetMapping("/get/byUniversity")
-    public List<ScheduleDto> getAllLectureByUniversityName(@RequestParam String universityName,
-                                          @RequestParam @DateTimeFormat(
+    @GetMapping("/get")
+    public List<ScheduleDto> getSchedule(@RequestParam(defaultValue = "") String groupName,
+                                         @RequestParam(defaultValue = "") String lectureRoom,
+                                         @RequestParam(defaultValue = "") String teacherName,
+                                         @RequestParam(defaultValue = "") String teacherSurname,
+                                         @RequestParam(defaultValue = "") String teacherPatronymic,
+                                         @RequestParam(defaultValue = "") String typeLecture,
+                                         @RequestParam String universityName,
+                                         @RequestParam(required = false) @DateTimeFormat(
                                                  pattern = "dd.MM.yyyy",
                                                  iso = DateTimeFormat.ISO.DATE) LocalDate startDay,
-                                          @RequestParam(required = false) @DateTimeFormat(
+                                         @RequestParam(required = false) @DateTimeFormat(
                                                  pattern = "dd.MM.yyyy",
-                                                 iso = DateTimeFormat.ISO.DATE) LocalDate endDay) {
-        List<Schedule> schedules = scheduleService.findAllByUniversity(universityName, startDay, endDay);
-        return scheduleService.convertScheduleToScheduleDto(schedules);
-    }
-
-    @GetMapping("/get/byTime")
-    public List<ScheduleDto> getAllLectureByTimeAndUniversityName(@RequestParam String universityName,
-                                                           @RequestParam @DateTimeFormat(
-                                                                   pattern = "dd.MM.yyyy",
-                                                                   iso = DateTimeFormat.ISO.DATE) LocalDate startDay,
-                                                           @RequestParam(required = false) @DateTimeFormat(
-                                                                   pattern = "dd.MM.yyyy",
-                                                                   iso = DateTimeFormat.ISO.DATE) LocalDate endDay,
-                                                           @RequestParam @DateTimeFormat(
-                                                                   pattern = "HH:mm",
-                                                                   iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
-                                                           @RequestParam(required = false) @DateTimeFormat(
-                                                                   pattern = "HH:mm",
-                                                                   iso = DateTimeFormat.ISO.TIME) LocalTime endTime) {
-        List<Schedule> schedules = scheduleService.findAllByTime(startTime, endTime, universityName, startDay, endDay);
+                                                 iso = DateTimeFormat.ISO.DATE) LocalDate endDay,
+                                         @RequestParam(required = false) @DateTimeFormat(
+                                                 pattern = "HH:mm",
+                                                 iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
+                                         @RequestParam(required = false) @DateTimeFormat(
+                                                 pattern = "HH:mm",
+                                                 iso = DateTimeFormat.ISO.TIME) LocalTime endTime) {
+        List<Schedule> schedules = scheduleService.findSchedules(
+                groupName,
+                lectureRoom,
+                teacherName, teacherSurname, teacherPatronymic,
+                typeLecture,
+                universityName,
+                startDay, endDay,
+                startTime, endTime);
         return scheduleService.convertScheduleToScheduleDto(schedules);
     }
 

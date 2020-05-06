@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.ubs.schedule.dto.*;
 import ua.ubs.schedule.entity.*;
-import ua.ubs.schedule.exaption.InformationNotFoundException;
+import ua.ubs.schedule.exaption.CustomInformationNotFoundException;
 import ua.ubs.schedule.exaption.ScheduleInformationIncorrectException;
 import ua.ubs.schedule.repository.GroupRepository;
 import ua.ubs.schedule.repository.ScheduleRepository;
@@ -138,9 +138,53 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleControlPanel;
     }
 
+    @Override
+    public List<Schedule> findSchedules(String groupName,
+                                        String lectureRoom,
+                                        String teacherName, String teacherSurname, String teacherPatronymic,
+                                        String typeLecture,
+                                        String universityName,
+                                        LocalDate startDay, LocalDate endDay,
+                                        LocalTime startTime, LocalTime endTime) {
+        if (startDay != null) {
+            if (!groupName.isEmpty()
+                    && !universityName.isEmpty()) {
+                return findAllByGroup(groupName, universityName, startDay, endDay);
+            }
+
+            if (!lectureRoom.isEmpty()
+                    && !universityName.isEmpty()) {
+                return findAllByLectureRoom(lectureRoom, universityName, startDay, endDay);
+            }
+
+
+            if (!teacherName.isEmpty() && !teacherSurname.isEmpty() && !teacherPatronymic.isEmpty()
+                    && !universityName.isEmpty()) {
+                return findAllByTeacher(teacherName, teacherSurname, teacherPatronymic, universityName, startDay, endDay);
+            }
+
+            if (!typeLecture.isEmpty()
+                    && !universityName.isEmpty()) {
+                return findAllByTypeLecture(typeLecture, universityName, startDay, endDay);
+            }
+
+            if (startTime != null) {
+                if (!universityName.isEmpty()) {
+                    return findAllByTime(startTime, endTime, universityName, startDay, endDay);
+                }
+            }
+
+            if (!universityName.isEmpty()) {
+                return findAllByUniversity(universityName, startDay, endDay);
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
     public List<ScheduleDto> convertScheduleToScheduleDto(List<Schedule> schedules) {
         if (schedules.isEmpty()) {
-            throw new InformationNotFoundException("Information not found");
+            throw new CustomInformationNotFoundException("Information not found");
         }
         ScheduleDto scheduleDto = new ScheduleDto();
         return scheduleDto.listSchedulesToListSchedulesDto(schedules);

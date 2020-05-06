@@ -28,4 +28,5 @@ public interface ScheduleService {
 
     ScheduleControlPanel getScheduleControlPanel();
 
+    List<Schedule> findSchedules(String groupName, String lectureRoom, String teacherName, String teacherSurname, String teacherPatronymic, String typeLecture, String universityName, LocalDate startDay, LocalDate endDay, LocalTime startTime, LocalTime endTime);
 }

@@ -32,7 +32,7 @@ public class ScheduleDto {
     @JsonProperty(value = "group")
     private GroupDto group;
     @JsonProperty(value = "teacher")
-    private UserDto user;
+    private UserScheduleDisplayDto user;
     @JsonProperty(value = "university")
     private UniversityScheduleDto university;
     @JsonProperty(value = "lectureRoom")
@@ -46,12 +46,12 @@ public class ScheduleDto {
 
         for (Schedule schedule : schedules) {
             ScheduleDto dto = new ScheduleDto();
-            UserDto userDto = new UserDto();
+            UserScheduleDisplayDto userDto = new UserScheduleDisplayDto();
             GroupDto groupDto = new GroupDto();
             UniversityScheduleDto universityScheduleDto = new UniversityScheduleDto();
 
             groupDto.groupToGroupDto(schedule.getGroup());
-            userDto.userToUserDto(schedule.getUser());
+            userDto.userToUserScheduleDisplayDto(schedule.getUser());
             universityScheduleDto.universityToUniversityScheduleDto(schedule.getUniversity());
 
             dto.setSubjectName(schedule.getSubjectName());
@@ -118,11 +118,11 @@ public class ScheduleDto {
         this.group = group;
     }
 
-    public UserDto getUser() {
+    public UserScheduleDisplayDto getUser() {
         return user;
     }
 
-    public void setUser(UserDto user) {
+    public void setUser(UserScheduleDisplayDto user) {
         this.user = user;
     }
 

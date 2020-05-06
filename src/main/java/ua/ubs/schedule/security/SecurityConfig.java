@@ -18,7 +18,6 @@ import ua.ubs.schedule.auth.UserDetailsServiceImpl;
 import ua.ubs.schedule.exaption.handler.RestAccessDeniedHandler;
 import ua.ubs.schedule.exaption.handler.RestAuthenticationEntryPointHandler;
 import ua.ubs.schedule.jwt.JwtRequestFilter;
-import ua.ubs.schedule.security.roles.SecurityRole;
 
 @Configuration
 @EnableWebSecurity
