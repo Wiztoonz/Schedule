@@ -1,9 +1,6 @@
 package ua.ubs.schedule.service;
 
-import ua.ubs.schedule.dto.GroupDto;
 import ua.ubs.schedule.dto.ScheduleDto;
-import ua.ubs.schedule.dto.UniversityScheduleDto;
-import ua.ubs.schedule.dto.UserDto;
 import ua.ubs.schedule.entity.Schedule;
 import ua.ubs.schedule.response.ScheduleControlPanel;
 

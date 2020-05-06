@@ -3,10 +3,7 @@ package ua.ubs.schedule.service.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.ubs.schedule.dto.*;
-import ua.ubs.schedule.entity.Group;
-import ua.ubs.schedule.entity.Schedule;
-import ua.ubs.schedule.entity.University;
-import ua.ubs.schedule.entity.User;
+import ua.ubs.schedule.entity.*;
 import ua.ubs.schedule.exaption.InformationNotFoundException;
 import ua.ubs.schedule.exaption.ScheduleInformationIncorrectException;
 import ua.ubs.schedule.repository.GroupRepository;
@@ -15,14 +12,13 @@ import ua.ubs.schedule.repository.UniversityRepository;
 import ua.ubs.schedule.repository.UserRepository;
 import ua.ubs.schedule.response.ScheduleControlPanel;
 import ua.ubs.schedule.security.roles.SecurityRole;
-import ua.ubs.schedule.service.GroupService;
 import ua.ubs.schedule.service.ScheduleService;
-import ua.ubs.schedule.service.UniversityService;
 import ua.ubs.schedule.service.UserService;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,24 +30,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     private UniversityRepository universityRepository;
 
     private UserService userService;
-    private GroupService groupService;
-    private UniversityService universityService;
 
     @Autowired
     public ScheduleServiceImpl(ScheduleRepository scheduleRepository,
                                UserRepository userRepository,
                                GroupRepository groupRepository,
                                UniversityRepository universityRepository,
-                               UserService userService,
-                               GroupService groupService,
-                               UniversityService universityService) {
+                               UserService userService) {
         this.scheduleRepository = scheduleRepository;
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
         this.universityRepository = universityRepository;
         this.userService = userService;
-        this.groupService = groupService;
-        this.universityService = universityService;
     }
 
 
@@ -114,12 +104,38 @@ public class ScheduleServiceImpl implements ScheduleService {
         return  scheduleRepository.findAllByStartLectureBetweenAndUniversity_UniversityNameAndDateBetweenOrderByDateAsc(startTime, endTime, universityName, startDay, currentDate(startDay, endDay));
     }
 
+    // FIXME: 06.05.2020 for > for > for
     @Override
     public ScheduleControlPanel getScheduleControlPanel() {
+        ScheduleControlPanel scheduleControlPanel = new ScheduleControlPanel();
+        List<University> universities = universityRepository.findAll();
         List<UserScheduleDto> users = userService.findUsersByRoleName(SecurityRole.TEACHER.name());
-        List<GroupDto> groups = groupService.findAll();
-        List<UniversityScheduleDto> universities = universityService.findAll();
-        return new ScheduleControlPanel(users, groups, universities);
+
+        List<GroupUniversityDto> groupUniversityDtos = new ArrayList<>();
+        for (University university : universities) {
+            GroupUniversityDto groupUniversityDto = new GroupUniversityDto();
+            UniversityDto universityDto = new UniversityDto();
+
+            List<GroupDto> groupDtos = new ArrayList<>();
+            for (Faculty faculty : university.getFaculties()) {
+                for (Group group : faculty.getGroups()) {
+                    GroupDto groupDto = new GroupDto();
+                    groupDto.setName(group.getName());
+                    groupDtos.add(groupDto);
+                }
+            }
+
+            universityDto.setUniversityName(university.getUniversityName());
+            groupUniversityDto.setGroups(groupDtos);
+            groupUniversityDto.setUniversity(universityDto);
+
+            groupUniversityDtos.add(groupUniversityDto);
+        }
+
+        scheduleControlPanel.setUsers(users);
+        scheduleControlPanel.setUniversities(groupUniversityDtos);
+
+        return scheduleControlPanel;
     }
 
     public List<ScheduleDto> convertScheduleToScheduleDto(List<Schedule> schedules) {
