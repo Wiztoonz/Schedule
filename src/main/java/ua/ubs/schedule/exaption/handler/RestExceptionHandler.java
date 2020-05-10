@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ua.ubs.schedule.exaption.CustomInformationNotFoundException;
 import ua.ubs.schedule.exaption.InformationNotFoundException;
 import ua.ubs.schedule.exaption.ScheduleInformationIncorrectException;
 import ua.ubs.schedule.exaption.UserIsRegisteredException;
@@ -57,14 +56,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         InformationNotFoundExceptionResponse errorResponse = new InformationNotFoundExceptionResponse();
         errorResponse.setMessage(exception.getMessage());
         errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.name());
-        return errorResponse;
-    }
-
-    @ExceptionHandler(value = {CustomInformationNotFoundException.class})
-    @ResponseStatus(code = HttpStatus.OK)
-    public CustomInformationNotFoundExceptionResponse handleCustomInformationNotFoundException(CustomInformationNotFoundException exception) {
-        CustomInformationNotFoundExceptionResponse errorResponse = new CustomInformationNotFoundExceptionResponse();
-        errorResponse.setMessage(exception.getMessage());
         return errorResponse;
     }
 
